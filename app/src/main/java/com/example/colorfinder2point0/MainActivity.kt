@@ -1,5 +1,7 @@
 package com.example.colorfinder2point0
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -40,6 +42,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        val button = findViewById<Button>(R.id.returnButton)
+
+
+        val info = intent.extras
+        if (info != null) {
+            if (info.containsKey("key")) {
+                button.visibility = View.VISIBLE
+            }
+        }
+
         toolbar.setLogo(R.drawable.diamond)
 
 
@@ -54,7 +67,21 @@ class MainActivity : AppCompatActivity() {
         val loader3 = this.findViewById<Button>(R.id.load3)
         val save = this.findViewById<Button>(R.id.Confirm)
 
+            val result1 = arrayListOf(0,0,0)
+
+            button.setOnClickListener {
+                result1[0] = redValue
+                result1[1] = greenValue
+                result1[2] = blueValue
+
+                val returnIntent = Intent()
+                returnIntent.putIntegerArrayListExtra("result", result1)
+                setResult(Activity.RESULT_OK, returnIntent)
+                finish()
+            }
+
         var surface = this.findViewById<SurfaceView>(R.id.mirror)
+
 
         seekBar.progress = redValue
         seekBarBlue.progress = blueValue
